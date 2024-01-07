@@ -3,6 +3,8 @@ pipeline {
     dockerimagename = "bravinwasike/react-app"
     dockerImage = ""
     registryCredential = 'Docker-Hub-Creds'
+    DOCKER_REPO = 'santhoshk8s/k8s'
+    DOCKER_TAG = 'latest'
   }
   agent any
   stages {
@@ -16,10 +18,8 @@ pipeline {
   stage('Deploy Image') {
       steps{
         script {
-          docker.withRegistry( '', registryCredential ) {
-            dockerImage.push("$BUILD_NUMBER")
-             dockerImage.push('latest')
-
+          docker.withRegistry( ''https://index.docker.io/v1/, registryCredential ) {
+          docker.image("${DOCKER_REPO}:${DOCKER_TAG}").push()
           }
         }
       }
