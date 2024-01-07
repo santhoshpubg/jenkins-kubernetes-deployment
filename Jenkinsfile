@@ -2,6 +2,7 @@ pipeline {
   environment {
     dockerimagename = "bravinwasike/react-app"
     dockerImage = ""
+    registryCredential = 'Docker-Hub-Creds'
   }
   agent any
   stages {
@@ -12,14 +13,13 @@ pipeline {
         }
       }
     }
-    stage('Pushing Image') {
-      environment {
-          registryCredential = 'Docker-Hub-Creds'
-           }
+  stage('Deploy Image') {
       steps{
         script {
-          docker.withRegistry( 'https://hub.docker.com/', registryCredential ) {
-            dockerImage.push("latest")
+          docker.withRegistry( '', registryCredential ) {
+            dockerImage.push("$BUILD_NUMBER")
+             dockerImage.push('latest')
+
           }
         }
       }
