@@ -2,7 +2,7 @@ pipeline {
   environment {
     dockerimagename = "bravinwasike/react-app"
     dockerImage = ""
-    registryCredential = 'Docker-Hub-Creds'
+    registryCredential = 'docker_account'
     DOCKER_REPO = 'santhoshk8s/k8s'
     DOCKER_TAG = 'latest'
   }
@@ -18,7 +18,7 @@ pipeline {
   stage('Deploy Image') {
       steps{
         script {
-          docker.withRegistry( 'https://index.docker.io/v1/', registryCredential ) {
+          docker.withRegistry( '', registryCredential ) {
           docker.image("${DOCKER_REPO}:${DOCKER_TAG}").push()
           }
         }
