@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: react-app-deployment
 spec:
-  replicas: 2
+  replicas: 3
   selector:
     matchLabels:
       app: react-app
@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
       - name: react-app-container
-        image: minikube:santhoshk8s/react-app:latest  # Updated image reference
+        image: "minikube:santhoshk8s/react-app:latest"  # Updated image reference
         ports:
         - containerPort: 3000
