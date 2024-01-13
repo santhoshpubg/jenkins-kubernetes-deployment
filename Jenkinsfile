@@ -24,12 +24,23 @@ pipeline {
         }
       }
     }
+
     stage('Deploying React.js container to Kubernetes') {
-      steps {
-        script {
-          kubernetesDeploy(configs: "deployment.yaml","service.yaml")
+            steps {
+                script {
+                    // Load Kubernetes DSL
+                    def k8s = load 'deployment.yaml'
+
+                    // Set Minikube credentials
+                    withCredentials([usernamePassword(credentialsId: 'minikube-credentials', usernameVariable: 'MINIKUBE_USERNAME', passwordVariable: 'MINIKUBE_PASSWORD')]) {
+                        // Apply deployment
+                        sh "kubectl apply -f deployment.yaml"
+                    }
+
+                    // Load and apply service
+                    sh "kubectl apply -f service.yaml"
+                }
+            }
         }
-      }
     }
-  }
 }
